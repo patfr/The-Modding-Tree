@@ -24,5 +24,15 @@ addLayer("m", {
     hotkeys: [
         {key: "m", description: "M: Reset for Multiplier", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
-    layerShown(){return true}
+    layerShown(){return true},
+    upgrades: {
+        11: {
+            title: "Generator of Genericness",
+            description: "Gain 1 Point every second.",
+            cost: new Decimal(1),
+            unlocked() { return player[this.layer].unlocked }, // The upgrade is only visible when this is true
+            branches: [12],
+            tooltip: "hi",
+        },
+    },
 })
