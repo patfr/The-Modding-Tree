@@ -32,11 +32,11 @@ addLayer("m", {
             cost: new Decimal(2),
             unlocked() { return player[this.layer].unlocked }, // The upgrade is only visible when this is true
             effect() {
-                return Decimal.log(player[this.layer].points, 2).add(2)
+                return Decimal.log(player[this.layer].points.add(1), 2).add(2)
             },
             effectDisplay() { return "x"+format(this.effect()) }, // Add formatting to the effect
             branches: [],
-            tooltip: "Log2(x)+2\nx is your Multiplier.",
+            tooltip: "Log2(x+1)+2\nx is your Multiplier.",
         },
     },
 })
