@@ -12,9 +12,10 @@ addLayer("m", {
     baseResource: "Cash", // Name of resource prestige is based on
     baseAmount() {return player.points}, // Get the current amount of baseResource
     type: "normal", // normal: cost to gain currency depends on amount gained. static: cost depends on how much you already have
-    exponent: 0.4, // Prestige currency exponent
+    exponent: 0.25, // Prestige currency exponent
     gainMult() { // Calculate the multiplier for main currency from bonuses
         mult = new Decimal(1)
+        if (hasUpgrade('r', 11)) mult = mult.mul(upgradeEffect('r', 11))
         return mult
     },
     gainExp() { // Calculate the exponent on main currency from bonuses
@@ -27,16 +28,60 @@ addLayer("m", {
     layerShown(){return true},
     upgrades: {
         11: {
-            title: "More Cash",
-            description: "Your Multiplier boosts Cash gain at a reduced rate",
+            title: "More Cash I",
+            description: "Your Multiplier boosts Cash gain at a reduced rate.",
             cost: new Decimal(2),
             unlocked() { return player[this.layer].unlocked }, // The upgrade is only visible when this is true
             effect() {
                 return Decimal.log(player[this.layer].points.add(1), 2).add(2)
             },
             effectDisplay() { return "x"+format(this.effect()) }, // Add formatting to the effect
-            branches: [],
-            tooltip: "Log2(x+1)+2\nx is your Multiplier.",
+            tooltip: "Log2(x+1)+2. x is your Multiplier.",
         },
+        12: {
+            title: "More Cash II",
+            description: "Gain x5 Cash.",
+            cost: new Decimal(10),
+            unlocked() { return hasUpgrade('m', 11) }, // The upgrade is only visible when this is true
+            effect() {
+                return new Decimal(5)
+            },
+        },
+        13: {
+            title: "More Cash III",
+            description: "Gain x5 Cash.",
+            cost: new Decimal(75),
+            unlocked() { return hasUpgrade('m', 12) }, // The upgrade is only visible when this is true
+            effect() {
+                return new Decimal(5)
+            },
+        },
+        14: {
+            title: "More Cash IV",
+            description: "Gain x10 Cash.",
+            cost: new Decimal(200),
+            unlocked() { return hasUpgrade('m', 13) && hasMilestone('r', 0) }, // The upgrade is only visible when this is true
+            effect() {
+                return new Decimal(10)
+            },
+        },
+        15: {
+            title: "More Cash V",
+            description: "Gain x10 Cash.",
+            cost: new Decimal(400),
+            unlocked() { return hasUpgrade('m', 14) && hasMilestone('r', 0) }, // The upgrade is only visible when this is true
+            effect() {
+                return new Decimal(10)
+            },
+        },
+    },
+    doReset(layer) {
+        let keep = []
+        if (layer == "m") return
+        if (layer == "r" && hasMilestone('r', 1)) {
+            keep.push("points")
+            player[this.layer].points = new Decimal(12)
+        }
+        layerDataReset(this.layer, keep)
     },
 })

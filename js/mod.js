@@ -13,11 +13,15 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.1a",
+	num: "0.2a",
 	name: "Release",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
+	<h3>v0.2a</h3><br>
+		- Added Rebirth layer.<br>
+		- Added 4 more Multiplier layer upgrades.
+		<br><br>
 	<h3>v0.1a</h3><br>
 		- Added Multiplier layer.<br>
 		- Added 1 Multiplier layer upgrade.`
@@ -43,6 +47,10 @@ function getPointGen() {
 		return new Decimal(0)
 	let gain = new Decimal(1)
 	if (hasUpgrade('m', 11)) gain = gain.mul(upgradeEffect('m', 11))
+	if (hasUpgrade('m', 12)) gain = gain.mul(upgradeEffect('m', 12))
+	if (hasUpgrade('m', 13)) gain = gain.mul(upgradeEffect('m', 13))
+	if (hasUpgrade('m', 14)) gain = gain.mul(upgradeEffect('m', 14))
+	if (hasUpgrade('m', 15)) gain = gain.mul(upgradeEffect('m', 15))
 	return gain
 }
 
