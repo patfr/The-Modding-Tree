@@ -7,7 +7,7 @@ addLayer("m", {
 		points: new Decimal(0),
     }},
     color: "#a212fc",
-    requires: new Decimal(10), // Can be a function that takes requirement increases into account
+    requires: new Decimal(5), // Can be a function that takes requirement increases into account
     resource: "Multiplier", // Name of prestige currency
     baseResource: "Cash", // Name of resource prestige is based on
     baseAmount() {return player.points}, // Get the current amount of baseResource
@@ -27,12 +27,16 @@ addLayer("m", {
     layerShown(){return true},
     upgrades: {
         11: {
-            title: "Generator of Genericness",
-            description: "Gain 1 Point every second.",
-            cost: new Decimal(1),
+            title: "More Cash",
+            description: "Your Multiplier boosts Cash gain at a reduced rate",
+            cost: new Decimal(2),
             unlocked() { return player[this.layer].unlocked }, // The upgrade is only visible when this is true
-            branches: [12],
-            tooltip: "hi",
+            effect() {
+                return Decimal.log(player[this.layer].points, 2).add(2)
+            },
+            effectDisplay() { return "x"+format(this.effect()) }, // Add formatting to the effect
+            branches: [],
+            tooltip: "Log2(x)+2\nx is your Multiplier.",
         },
     },
 })
