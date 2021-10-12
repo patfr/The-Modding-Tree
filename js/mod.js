@@ -3,7 +3,7 @@ let modInfo = {
 	id: "TheButtonTree",
 	author: "patfr",
 	pointsName: "Cash",
-	modFiles: ["Layers/m.js", "tree.js"],
+	modFiles: ["Layers/m.js", "Layers/r.js", "Layers/sr.js", "Layers/t.js", "tree.js"],
 
 	discordName: "",
 	discordLink: "",

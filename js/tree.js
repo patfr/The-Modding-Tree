@@ -10,10 +10,7 @@ var layoutInfo = {
 
 
 // A "ghost" layer which offsets other layers in the tree
-addNode("blank", {
-    layerShown: "ghost",
-}, 
-)
+addNode("blank", { layerShown: "ghost", position: 0, row: 3 })
 
 
 addLayer("tree-tab", {
