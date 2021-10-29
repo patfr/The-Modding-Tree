@@ -191,7 +191,7 @@ addLayer("q", {
         22: {
             title: "Dark VII",
             description: "Divide Quark price by /5e12.",
-            cost: new Decimal(36),
+            cost: new Decimal(35),
             unlocked() { return hasUpgrade("p", 12) },
             effect() {
                 return new Decimal(5e12);
@@ -206,7 +206,7 @@ addLayer("q", {
         23: {
             title: "Dark VIII",
             description: "Raise Quark exponent by 1.1.",
-            cost: new Decimal(45),
+            cost: new Decimal(44),
             unlocked() { return hasUpgrade("p", 12) },
             effect() {
                 let eff = new Decimal(1.1)
@@ -223,7 +223,7 @@ addLayer("q", {
         24: {
             title: "Dark IX",
             description: "The previous upgrade's effect is increased by 0.1.",
-            cost: new Decimal(128),
+            cost: new Decimal(126),
             unlocked() { return hasUpgrade("p", 12) },
             effect() {
                 let eff = new Decimal(1.1)
@@ -358,7 +358,7 @@ addLayer("p", {
         if (hasMilestone(this.layer, 2)) eff = eff.mul(2)
         return eff
     },
-    effectDescription() {return "which boost Quark gain by <h2 style='color:"+tmp.p.color+";text-shadow:0px 0px 10px;'>"+format(tmp.p.effect)+"</h2>"},
+    effectDescription() {return "which divides Quark price by <h2 style='color:"+tmp.p.color+";text-shadow:0px 0px 10px;'>"+format(tmp.p.effect)+"</h2>"},
     milestones: {
         0: {
             requirementDescription: "2 Photons",
