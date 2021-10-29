@@ -11,6 +11,7 @@ addLayer("q", {
     type: "static",
     exponent: 1.5,
     roundUpCost: true,
+    autoPrestige() {return hasMilestone("p", 4)},
     resetsNothing() {return hasMilestone(this.layer, 0)},
     canBuyMax() {return hasMilestone("p", 0)},
     baseAmount() {return player.points},
@@ -24,15 +25,15 @@ addLayer("q", {
         gain = gain.div(tmp.p.effect)
         gain = gain.div(buyableEffect(this.layer, 11))
         if (hasUpgrade("p", 11)) gain = gain.div(upgradeEffect("p", 11))
+        if (hasUpgrade("q", 22)) gain = gain.div(upgradeEffect("q", 22))
+        if (hasUpgrade("p", 14)) gain = gain.div(upgradeEffect("p", 14))
         return gain
     },
     gainExp() {
         let gain = new Decimal(1)
+        if (hasUpgrade("q", 23)) gain = gain.add(upgradeEffect("q", 23))
         return gain
     },
-    hotkeys: [
-        {key: "q", description: "Q: Reset for Quarks", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
-    ],
     layerShown(){return true},
     effect() {
         let eff = new Decimal(1)
@@ -53,6 +54,28 @@ addLayer("q", {
             unlocked() { return player.q.unlocked },
             done() { return player[this.layer].points.gte(32) },
             effectDescription: "Quark resets nothing.",
+            style() {
+                let style = {}
+                if (hasMilestone(this.layer, this.id)) style['background-color'] = tmp[this.layer].colorCan
+                return style
+            },
+        },
+        1: {
+            requirementDescription: "300 Quarks",
+            unlocked() { return hasMilestone(this.layer, 0) },
+            done() { return player[this.layer].points.gte(300) },
+            effectDescription: "Keep Quarks buyables on Photon reset.",
+            style() {
+                let style = {}
+                if (hasMilestone(this.layer, this.id)) style['background-color'] = tmp[this.layer].colorCan
+                return style
+            },
+        },
+        2: {
+            requirementDescription: "330 Quarks",
+            unlocked() { return hasMilestone(this.layer, 1) },
+            done() { return player[this.layer].points.gte(330) },
+            effectDescription: "Keep Quarks upgrades on Photon reset.",
             style() {
                 let style = {}
                 if (hasMilestone(this.layer, this.id)) style['background-color'] = tmp[this.layer].colorCan
@@ -167,11 +190,11 @@ addLayer("q", {
         },
         22: {
             title: "Dark VII",
-            description: "Not implimented.",
-            cost: new Decimal(Infinity),
+            description: "Divide Quark price by /5e12.",
+            cost: new Decimal(36),
             unlocked() { return hasUpgrade("p", 12) },
             effect() {
-                return new Decimal(1);
+                return new Decimal(5e12);
             },
             style() {
                 let style = {}
@@ -182,11 +205,13 @@ addLayer("q", {
         },
         23: {
             title: "Dark VIII",
-            description: "Not implimented.",
-            cost: new Decimal(Infinity),
+            description: "Raise Quark exponent by 1.1.",
+            cost: new Decimal(45),
             unlocked() { return hasUpgrade("p", 12) },
             effect() {
-                return new Decimal(1);
+                let eff = new Decimal(1.1)
+                if (hasUpgrade(this.layer, 24)) eff = eff.add(upgradeEffect(this.layer, 24))
+                return eff;
             },
             style() {
                 let style = {}
@@ -197,11 +222,13 @@ addLayer("q", {
         },
         24: {
             title: "Dark IX",
-            description: "Not implimented.",
-            cost: new Decimal(Infinity),
+            description: "The previous upgrade's effect is increased by 0.1.",
+            cost: new Decimal(128),
             unlocked() { return hasUpgrade("p", 12) },
             effect() {
-                return new Decimal(1);
+                let eff = new Decimal(1.1)
+                if (hasUpgrade(this.layer, 25)) eff = eff.mul(upgradeEffect(this.layer, 25))
+                return eff;
             },
             style() {
                 let style = {}
@@ -212,12 +239,14 @@ addLayer("q", {
         },
         25: {
             title: "Dark X",
-            description: "Not implimented.",
-            cost: new Decimal(Infinity),
+            description: "The previous upgrade's effect is multiplied based on Photons. Hardcap at x2",
+            cost: new Decimal(137),
             unlocked() { return hasUpgrade("p", 12) },
             effect() {
-                return new Decimal(1);
+                return Decimal.log(player.p.points.add(1), 1e4).add(1).min(2);
             },
+            effectDisplay() { return format(this.effect())+"x" },
+            tooltip() { return "Log1e4(Photons + 1) + 1" },
             style() {
                 let style = {}
                 if (tmp[this.layer].upgrades[this.id].cost.lte(player[this.layer].points)) style['background-color'] = tmp[this.layer].colorCan
@@ -276,6 +305,8 @@ addLayer("q", {
         }
         if (resetLayer == "p") {
             if (hasMilestone("p", 1)) keep.push("milestones")
+            if (hasMilestone("q", 1)) keep.push("buyables")
+            if (hasMilestone("q", 2)) keep.push("upgrades")
         }
         keep.push("total")
         layerDataReset(this.layer, keep)
@@ -293,7 +324,7 @@ addLayer("p", {
     baseResource: "Quarks",
     requires: new Decimal(30),
     type: "normal",
-    exponent: 1.5,
+    exponent: 1,
     roundUpCost: true,
     baseAmount() {return player.q.points},
     startData() { return {
@@ -310,13 +341,19 @@ addLayer("p", {
         return new Decimal(1)
     },
     hotkeys: [
-        {key: "p", description: "Q: Reset for Photons", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
+        {key: "p", description: "P: Reset for Photons", onPress(){if (canReset(this.layer)) doReset(this.layer)}},
     ],
     layerShown(){return true},
     effect() {
         let eff = new Decimal(1)
-        if (player.p.points.gte(1)) {
-            eff = player.p.points.mul(2)
+        if (hasMilestone(this.layer, 3)) {
+            if (player.p.best.gte(1)) {
+                eff = player.p.best.mul(2)
+            }
+        } else {
+            if (player.p.points.gte(1)) {
+                eff = player.p.points.mul(2)
+            }
         }
         if (hasMilestone(this.layer, 2)) eff = eff.mul(2)
         return eff
@@ -350,6 +387,28 @@ addLayer("p", {
             unlocked() { return player.p.unlocked },
             done() { return player[this.layer].points.gte(6) },
             effectDescription: "Photon effect is doubled.",
+            style() {
+                let style = {}
+                if (hasMilestone(this.layer, this.id)) style['background-color'] = tmp[this.layer].colorCan
+                return style
+            },
+        },
+        3: {
+            requirementDescription: "10 Photons",
+            unlocked() { return player.p.unlocked },
+            done() { return player[this.layer].points.gte(10) },
+            effectDescription: "Photon effect is now based on best Photons.",
+            style() {
+                let style = {}
+                if (hasMilestone(this.layer, this.id)) style['background-color'] = tmp[this.layer].colorCan
+                return style
+            },
+        },
+        4: {
+            requirementDescription: "100 Photons",
+            unlocked() { return player.p.unlocked },
+            done() { return player[this.layer].points.gte(100) },
+            effectDescription: "Autobuy quarks.",
             style() {
                 let style = {}
                 if (hasMilestone(this.layer, this.id)) style['background-color'] = tmp[this.layer].colorCan
@@ -412,6 +471,46 @@ addLayer("p", {
                 if (tmp[this.layer].upgrades[this.id].cost.lte(player[this.layer].points)) style['background-color'] = tmp[this.layer].colorCan
                 if (hasUpgrade(this.layer, this.id)) {
                     style['background-color'] = tmp.p.color
+                } else {
+                    style['border-radius'] = "0px 10px 10px 0px"
+                }
+                return style
+            },
+        },
+        14: {
+            title: "Light IV",
+            description: "Divine the price of Quarks based on Quarks.",
+            cost: new Decimal(18),
+            unlocked() { return hasUpgrade(this.layer, 13) },
+            effect() {
+                return player.q.points.max(1);
+            },
+            effectDisplay() { return "/"+format(this.effect()) },
+            tooltip() { return "Max(Quarks, 1)" },
+            style() {
+                let style = {}
+                if (tmp[this.layer].upgrades[this.id].cost.lte(player[this.layer].points)) style['background-color'] = tmp[this.layer].colorCan
+                if (hasUpgrade(this.layer, this.id)) {
+                    style['background-color'] = tmp.p.color
+                } else {
+                    style['border-radius'] = "0px 10px 10px 0px"
+                }
+                return style
+            },
+        },
+        15: {
+            title: "Light V",
+            description: "Unlock 2 new layers.<br>(Not implimented)",
+            cost: new Decimal(Infinity),
+            unlocked() { return hasUpgrade(this.layer, 14) },
+            effect() {
+                return player.q.points.max(1);
+            },
+            style() {
+                let style = {}
+                if (tmp[this.layer].upgrades[this.id].cost.lte(player[this.layer].points)) style['background-color'] = tmp[this.layer].colorCan
+                if (hasUpgrade(this.layer, this.id)) {
+                    style['background-color'] = tmp.p.color
                     style['border-radius'] = "0px 10px 10px 0px"
                 } else {
                     style['border-radius'] = "0px 10px 10px 0px"
@@ -439,6 +538,7 @@ addLayer("p", {
             keep.push("points")
             keep.push("milestones")
             keep.push("upgrades")
+            keep.push("best")
         }
         keep.push("total")
         layerDataReset(this.layer, keep)
@@ -456,7 +556,7 @@ addLayer("s", {
     }},
     layerShown(){return true},
     tabFormat: [
-        ["display-text", "<b>Current endgame: </b>36 Quarks"],
+        ["display-text", "<b>Current endgame: </b>200 Photons"],
         ["blank", "40px"],
         ["display-text", "<h2>Quarks</h2>"],
         ["display-text", function() { return "You have made a total of <h2 style='color:"+tmp.q.color+";text-shadow:0px 0px 10px;'>"+format(player.q.total)+"</h2> Quarks" }],

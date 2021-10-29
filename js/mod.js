@@ -13,11 +13,16 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.2a Part 1",
+	num: "0.2a Part 2",
 	name: "Redo",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
+	<h3>v0.2a Part 2</h3><br>
+		- Added added more upgrades and milestones to photon layer.<br>
+		- Added finished the 2nd row of quarks upgrades.<br>
+		- This is part 2 of 2.<br>
+		<br>
 	<h3>v0.2a Part 1</h3><br>
 		- Added Photon layer.<br>
 		- Added 2nd row of quarks upgrades.<br>
@@ -66,7 +71,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.q.points.gte(36)
+	return player.p.points.gte(200)
 }
 
 
