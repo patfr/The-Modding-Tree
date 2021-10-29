@@ -1,9 +1,9 @@
 let modInfo = {
-	name: "The Button Tree",
-	id: "TheButtonTree",
+	name: "The Universal Tree",
+	id: "TheUniversalTree",
 	author: "patfr",
-	pointsName: "Cash",
-	modFiles: ["Layers/m.js", "Layers/r.js", "Layers/sr.js", "Layers/t.js", "tree.js"],
+	pointsName: "Dark Matter",
+	modFiles: ["Layers.js", "tree.js"],
 
 	discordName: "",
 	discordLink: "",
@@ -13,20 +13,16 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.2a",
-	name: "Release",
+	num: "0.1a",
+	name: "Redo",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
-	<h3>v0.2a</h3><br>
-		- Added Rebirth layer.<br>
-		- Added 4 more Multiplier layer upgrades.
-		<br><br>
 	<h3>v0.1a</h3><br>
-		- Added Multiplier layer.<br>
-		- Added 1 Multiplier layer upgrade.`
+		- Added Quark layer.<br>
+		- Added Statistics layer.`
 
-let winText = `Congratulations! You have reached the end and beaten this game, but for now...`
+let winText = `Congratulations! You have reached the end and beaten this game, for now...`
 
 // If you add new functions anywhere inside of a layer, and those functions have an effect when called, add them here.
 // (The ones here are examples, all official functions are already taken care of)
@@ -46,11 +42,9 @@ function getPointGen() {
 	if(!canGenPoints())
 		return new Decimal(0)
 	let gain = new Decimal(1)
-	if (hasUpgrade('m', 11)) gain = gain.mul(upgradeEffect('m', 11))
-	if (hasUpgrade('m', 12)) gain = gain.mul(upgradeEffect('m', 12))
-	if (hasUpgrade('m', 13)) gain = gain.mul(upgradeEffect('m', 13))
-	if (hasUpgrade('m', 14)) gain = gain.mul(upgradeEffect('m', 14))
-	if (hasUpgrade('m', 15)) gain = gain.mul(upgradeEffect('m', 15))
+	gain = gain.mul(tmp.q.effect)
+	if (hasUpgrade("q", 11)) gain = gain.mul(upgradeEffect("q", 11))
+	if (hasUpgrade("q", 12)) gain = gain.mul(upgradeEffect("q", 12))
 	return gain
 }
 
@@ -64,7 +58,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.points.gte(new Decimal("e280000000"))
+	return player.q.points.gte(28)
 }
 
 

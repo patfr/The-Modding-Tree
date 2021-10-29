@@ -1,5 +1,5 @@
 var layoutInfo = {
-    startTab: "m",
+    startTab: "none",
     startNavTab: "tree-tab",
 	showTree: true,
 
@@ -14,7 +14,15 @@ addNode("blank", { layerShown: "ghost", position: 0, row: 3 })
 
 
 addLayer("tree-tab", {
-    tabFormat: [["tree", function() {return (layoutInfo.treeLayout ? layoutInfo.treeLayout : TREE_LAYERS)}]],
+    tabFormat: {
+        "Layers": {
+            embedLayer: "l",
+        },
+        "Statistics": {
+            embedLayer: "s",
+        }
+    },
+    color: "#99eeee",
     previousTab: "",
     leftTab: true,
 })

@@ -3,26 +3,28 @@
 .reset {
 	height: 120px;
 	width: 180px;
-	border-radius: 25%;
+	border-radius: 10px;
 	border: 4px solid;
-	border-color: rgba(0, 0, 0, 0.125);
+	border-color: rgba(0, 0, 0, 0.25);
+    font-family: 'Roboto Mono', monospace !important;
 }
 
 .tabButton {
 	background-color: transparent;
+    font-family: 'Roboto Mono', monospace !important;
 	color: var(--color);
 	font-size: 20px;
 	cursor: pointer;
-	padding: 5px 20px;
+	padding: 5px 5px;
 	margin: 5px;
-	border-radius: 10px;
-	border: 2px solid;
+	border-radius: 5px;
+	border: 4px solid;
 	color: var(--color);
 
 }
 
 .tabButton:hover {
-	transform: scale(1.1, 1.1);
+	transform: scale(1.025, 1.025);
 	text-shadow: 0 0 7px var(--color);
 }
 
@@ -37,7 +39,7 @@
     margin-bottom: 5px;
     transform: translateX(-50%);
     padding: 7px;
-    font-family: "Lucida Console", "Courier New", monospace;
+    font-family: 'Roboto Mono', monospace !important;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
