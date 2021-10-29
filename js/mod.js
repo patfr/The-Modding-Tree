@@ -13,11 +13,17 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.1a",
+	num: "0.2a Part 1",
 	name: "Redo",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
+	<h3>v0.2a Part 1</h3><br>
+		- Added Photon layer.<br>
+		- Added 2nd row of quarks upgrades.<br>
+		- Added a quark buyable.<br>
+		- This is part 1 of 2.<br>
+		<br>
 	<h3>v0.1a</h3><br>
 		- Added Quark layer.<br>
 		- Added Statistics layer.`
@@ -45,6 +51,8 @@ function getPointGen() {
 	gain = gain.mul(tmp.q.effect)
 	if (hasUpgrade("q", 11)) gain = gain.mul(upgradeEffect("q", 11))
 	if (hasUpgrade("q", 12)) gain = gain.mul(upgradeEffect("q", 12))
+	if (hasUpgrade("q", 15)) gain = gain.mul(upgradeEffect("q", 15))
+	if (hasUpgrade("q", 21)) gain = gain.mul(upgradeEffect("q", 21))
 	return gain
 }
 
@@ -58,7 +66,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.q.points.gte(28)
+	return player.q.points.gte(36)
 }
 
 
