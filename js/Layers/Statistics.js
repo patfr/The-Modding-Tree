@@ -11,7 +11,7 @@ addLayer("s", {
     tabFormat: {
         "General": {
             content: [
-                ["display-text", function() { return "<h3>Current endgame: </h3><h2 style='color:"+tmp.p.color+";text-shadow:0px 0px 10px;'>200 Photons</h2>" }],
+                ["display-text", function() { return "<h3>Current endgame: </h3><h2 style='color:"+tmp.p.color+";text-shadow:0px 0px 10px;'>25 Photons</h2>" }],
                 ["blank", "40px"],
                 ["display-text", "<h2>Links & Information</h2>"],
                 "blank",
