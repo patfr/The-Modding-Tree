@@ -5,8 +5,8 @@ let modInfo = {
 	pointsName: "Dark Matter",
 	modFiles: ["Layers.js", "tree.js"],
 
-	discordName: "",
-	discordLink: "",
+	discordName: "My discord server",
+	discordLink: "https://discord.gg/7ahtMyv5hX",
 	initialStartPoints: new Decimal (0), // Used for hard resets and new players
 	offlineLimit: 24,  // In hours
 }
