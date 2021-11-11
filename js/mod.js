@@ -3,21 +3,38 @@ let modInfo = {
 	id: "TheUniversalTree",
 	author: "patfr",
 	pointsName: "Dark Matter",
-	modFiles: ["Layers.js", "tree.js"],
+	modFiles: [
+		"Layers/DarkMatter.js",
+		"Layers/Quarks.js",
+		"Layers/Photons.js",
+		"Layers/Neutrons.js",
+		"Layers/Protons.js",
+		"Layers/Layers.js",
+		"Layers/Choose.js",
+		"Layers/Statistics.js",
+		"Layers/Achievements.js",
+		"tree.js",
+	],
 
-	discordName: "",
-	discordLink: "",
+	discordName: "My discord server",
+	discordLink: "https://discord.gg/7ahtMyv5hX",
 	initialStartPoints: new Decimal (0), // Used for hard resets and new players
-	offlineLimit: 24,  // In hours
+	offlineLimit: 0,  // In hours
 }
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.2b",
-	name: "Bugfixes",
+	num: "0.3a",
+	name: "Rebalancing",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
+	<h3>v0.3a</h3><br>
+		- Change the balancing of Quark and Photons layers.<br>
+		- Added some stuff in Statistics now stop complaining that this doesn't have a tree :/.<br>
+		- Added a side layer for Dark Matter.<br>
+		- Added achievements.<br>
+		<br>
 	<h3>v0.2a Part 2</h3><br>
 		- Added added more upgrades and milestones to photon layer.<br>
 		- Added finished the 2nd row of quarks upgrades.<br>
@@ -53,11 +70,12 @@ function getPointGen() {
 	if(!canGenPoints())
 		return new Decimal(0)
 	let gain = new Decimal(1)
-	gain = gain.mul(tmp.q.effect)
 	if (hasUpgrade("q", 11)) gain = gain.mul(upgradeEffect("q", 11))
 	if (hasUpgrade("q", 12)) gain = gain.mul(upgradeEffect("q", 12))
+	if (hasUpgrade("q", 14)) gain = gain.mul(upgradeEffect("q", 14))
 	if (hasUpgrade("q", 15)) gain = gain.mul(upgradeEffect("q", 15))
 	if (hasUpgrade("q", 21)) gain = gain.mul(upgradeEffect("q", 21))
+	if (hasMilestone("p", 0)) gain = gain.mul(10)
 	return gain
 }
 
@@ -71,7 +89,7 @@ var displayThings = [
 
 // Determines when the game "ends"
 function isEndgame() {
-	return player.p.points.gte(200)
+	return player.d.size.gte("3.12e-45")
 }
 
 

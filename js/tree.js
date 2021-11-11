@@ -20,7 +20,10 @@ addLayer("tree-tab", {
         },
         "Statistics": {
             embedLayer: "s",
-        }
+        },
+        "Achievements": {
+            embedLayer: "a",
+        },
     },
     color: "#99eeee",
     previousTab: "",
