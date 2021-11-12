@@ -172,8 +172,6 @@ addLayer("p", {
             effect() {
                 return new Decimal(1e10);
             },
-            effectDisplay() { return "/"+format(this.effect()) },
-            tooltip() { return "Max(Quarks, 1)" },
             style() {
                 let style = {}
                 if (tmp[this.layer].upgrades[this.id].cost.lte(player[this.layer].points)) style['background-color'] = tmp[this.layer].colorCan
