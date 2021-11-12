@@ -60,11 +60,12 @@ addLayer("q", {
                 let style = {}
                 if (tmp[this.layer].upgrades[this.id].cost.lte(player[this.layer].points)) style['background-color'] = tmp[this.layer].colorCan
                 if (hasUpgrade(this.layer, this.id)) style['background-color'] = tmp.q.color
-                if (hasUpgrade("p", 11)) {
+                /*if (hasUpgrade("p", 11)) {
                     style['border-radius'] = "10px 0px 0px 10px"
                 } else {
                     style['border-radius'] = "10px 0px 0px 10px"
-                }
+                }*/
+                style['border-radius'] = "10px 0px 0px 10px"
                 return style
             },
         },
@@ -127,11 +128,12 @@ addLayer("q", {
                 let style = {}
                 if (tmp[this.layer].upgrades[this.id].cost.lte(player[this.layer].points)) style['background-color'] = tmp[this.layer].colorCan
                 if (hasUpgrade(this.layer, this.id)) style['background-color'] =  tmp.q.color
-                if (hasUpgrade("p", 11)) {
+                /*if (hasUpgrade("p", 11)) {
                     style['border-radius'] = "0px 10px 10px 0px"
                 } else {
                     style['border-radius'] = "0px 10px 10px 0px"
-                }
+                }*/
+                style['border-radius'] = "0px 10px 10px 0px"
                 return style
             },
         },
@@ -163,6 +165,7 @@ addLayer("q", {
                 let style = {}
                 if (tmp[this.layer].upgrades[this.id].cost.lte(player[this.layer].points)) style['background-color'] = tmp[this.layer].colorCan
                 if (hasUpgrade(this.layer, this.id)) style['background-color'] = tmp.q.color
+                style['border-radius'] = "0px 0px 10px 0px"
                 return style
             },
         },
