@@ -34,7 +34,7 @@ addLayer("a", {
         13: {
             name: "Let there be light",
             done() { return player.p.unlocked },
-            tooltip: "Get your first Quark upgrade.",
+            tooltip: "Get your first Photon.",
             style() {
                 let style = {}
                 if (hasAchievement(this.layer, this.id)) style['background-color'] = "#aaffaa"
