@@ -24,11 +24,16 @@ let modInfo = {
 
 // Set your version in num and name
 let VERSION = {
-	num: "0.3a",
-	name: "Rebalancing",
+	num: "0.3b",
+	name: "Bugfixes",
 }
 
 let changelog = `<h1>Changelog:</h1><br>
+	<h3>v0.3b</h3><br>
+		- Fixed Photon upgrade 4's tooltip.<br>
+		- Fixed Quark upgrades border radius.<br>
+		- Fixed Let there be light requirement.<br>
+		<br>
 	<h3>v0.3a</h3><br>
 		- Change the balancing of Quark and Photons layers.<br>
 		- Added some stuff in Statistics now stop complaining that this doesn't have a tree :/.<br>
